@@ -39,7 +39,8 @@ $attributes = array(
 <div class="product-card__cta-wrap">
     <button
             <?php echo $product->is_in_stock() ? '' : 'disabled="disabled"'; ?>
-            class="add-to-cart-btn product-card__cta focus:outline-none focus:ring-0"
+            <?php // add_to_cart_button + product_type_*: klase po kojima GTM4WP prepoznaje add_to_cart u listama (ne dodajemo ajax_add_to_cart — košaricu radi naš cart.js). ?>
+            class="add-to-cart-btn product-card__cta add_to_cart_button product_type_<?php echo esc_attr( $product->get_type() ); ?> focus:outline-none focus:ring-0"
         <?php
         foreach ( $attributes as $attribute => $value ) {
             if ('' === $value) {

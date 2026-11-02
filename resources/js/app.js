@@ -10,6 +10,7 @@ import {
 import { registerSwiper } from './front/swiper';
 import { registerNewsletterForm } from './front/newsletter';
 import { registerShopFilters } from './front/shop-filters';
+import { registerBlocksEcommerce } from './front/blocks-ecommerce';
 
 $(document).ready(function () {
 	registerNewsletterForm();
@@ -19,6 +20,7 @@ $(document).ready(function () {
 	registerNumberFieldControls();
 	refreshCart();
 	registerShopFilters();
+	registerBlocksEcommerce();
 });
 
 module.exports = [];
