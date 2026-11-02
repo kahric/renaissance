@@ -1,0 +1,953 @@
+/* =========================================================================
+   Komponente: Dugmad
+   Koristi .btn-* klase u markup-u umjesto inline kombinacija — boje idu
+   preko brand tokena (accent = mat zlato), pa promjena palete prati svuda.
+   ========================================================================= */
+
+/* Outline CTA — "galerijski" izgled: zlatni obrub, fill na hover.
+   Zadana veličina je velika; za manju dodaj .btn-sm. */
+.btn-outline {
+	@apply inline-flex items-center justify-center border border-gold px-10 py-3 text-base tracking-wide text-ink transition-colors duration-300 hover:bg-gold hover:text-white;
+}
+.btn-outline.btn-sm {
+	@apply px-8 py-2 text-sm;
+}
+/* Outline CTA na tamnoj / slikovnoj pozadini (banner). */
+.btn-outline-light {
+	@apply inline-flex items-center justify-center border border-white/80 px-10 py-3 text-base tracking-wide text-white transition-colors duration-300 hover:bg-white hover:text-ink;
+}
+
+/* Puni CTA — npr. "Dodaj u košaricu". */
+.btn-solid {
+	@apply inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-primary-400 px-6 text-base font-medium tracking-wide text-white shadow-sm transition-colors hover:bg-primary-600 focus:ring-4 focus:ring-primary-300 focus:outline-none;
+}
+
+/* Onemogućeni CTA (npr. nedostupan proizvod). */
+.btn-disabled {
+	@apply inline-flex h-11 cursor-not-allowed items-center justify-center gap-2 rounded-lg bg-primary-100 px-6 text-base font-medium text-ink/50 ring-1 ring-primary-200 ring-inset;
+}
+
+/* Sekundarni puni gumb — generički (404, komentari, sl.). */
+.btn-primary {
+	@apply inline-flex items-center justify-center rounded bg-primary px-4 py-2 font-medium text-white transition-colors hover:bg-primary/80;
+}
+
+/* Invertni gumb — bijela pozadina, zlatni tekst, fill na hover (header košarica). */
+.btn-ghost {
+	@apply inline-flex items-center bg-white px-3 py-2 font-semibold text-primary transition-colors hover:bg-primary hover:text-white;
+}
+
+/* =========================================================================
+   Tipografija: skala naslova
+   Postavlja SAMO font + veličinu + težinu. Boju daje @layer base (ink) na
+   naslovima, ili inline override (npr. text-white na hero/banneru) — zato
+   .title-* namjerno NE postavlja boju (izbjegava konflikt specifičnosti).
+   Radi na bilo kojem elementu (h1..h6 ili p korišten kao naslov).
+   ========================================================================= */
+.title-xl {
+	@apply font-serif text-3xl font-normal lg:text-4xl;
+} /* hero / naslov stranice / glavni sekcijski */
+.title-lg {
+	@apply font-serif text-2xl font-normal lg:text-3xl;
+} /* sekcijski */
+.title-md {
+	@apply font-serif text-xl font-normal lg:text-2xl;
+} /* manji / kartice */
+.title-sm {
+	@apply font-serif text-lg font-normal;
+} /* footer kolone / sitni */
+
+/* =========================================================================
+   Komponente: Sitni elementi
+   ========================================================================= */
+
+/* Eyebrow — mala zlatna nadnaslovna oznaka (razmaknuti capsi).
+   Razmak ispod (mb-*) ostaje inline jer varira po kontekstu. */
+.eyebrow {
+	@apply text-xs tracking-[0.25em] text-gold uppercase;
+}
+
+/* Sale badge — okrugla oznaka popusta (-NN%) na proizvodu. */
+.badge-sale {
+	@apply inline-flex aspect-square items-center justify-center rounded-full bg-primary p-1 text-white;
+}
+
+/* Quantity stepper — okvir + dva gumba (−/+) + polje. */
+.qty-box {
+	@apply relative flex h-11 items-center rounded-lg border border-primary-300 bg-primary-50;
+}
+.qty-btn {
+	@apply flex h-full w-10 shrink-0 items-center justify-center text-primary-900 transition-colors hover:bg-primary-100 focus:ring-2 focus:ring-primary-200 focus:ring-inset focus:outline-none;
+}
+.qty-input {
+	@apply h-full w-12 shrink-0 border-x border-primary-300 bg-transparent text-center text-base font-medium text-primary-900 focus:ring-0 focus:outline-none;
+}
+
+/* =========================================================================
+   Komponenta: Product card
+   Jedan izgled svugdje — shop liste, "Odabrano" na naslovnoj, widgeti.
+   Slika pluta na bijelom (galerijski), serif naslov + cijena centrirani,
+   a CTA je usidren na dno s divider linijom (pa su gumbi poravnati kroz
+   cijeli red bez obzira na dužinu naslova). Marker klasa `group` ide u
+   markup uz `.product-card` (za group-hover na CTA-u).
+   ========================================================================= */
+.product-card {
+	/* `group` marker klasa ide u markup (wc_product_class 'product-card group'). */
+	@apply relative flex h-full flex-col border border-line bg-white transition-colors duration-300 hover:border-primary/40;
+}
+/* Slika — full-bleed do rubova okvira (lifestyle fotke ispune bez bijelog
+   ruba); blagi zoom na hover (galerijski). */
+.product-card__media {
+	@apply relative block overflow-hidden;
+}
+.product-card__media img {
+	@apply aspect-square w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04];
+}
+/* Naslov — serif (iz @layer base), pozlati na hover; ispod njega potpisna
+   zlatna linija koja raste na hover (isti motiv kao kategorijske pločice). */
+.product-card__title {
+	@apply px-6 pt-7 text-center text-2xl leading-snug transition-colors group-hover:text-gold lg:text-xl;
+}
+.product-card__title::after {
+	content: "";
+	@apply mx-auto mt-4 block h-px w-8 bg-gold/40 transition-all duration-500 group-hover:w-14 group-hover:bg-gold;
+}
+/* Cijena — centrirana; zlatna „ins” za sniženje, kao na stranici proizvoda. */
+.product-card__price {
+	@apply block px-6 pt-4 text-center text-lg font-medium text-ink;
+}
+.product-card__price del {
+	@apply mr-2 text-base font-normal text-ink/40;
+}
+.product-card__price del .amount {
+	@apply line-through;
+}
+.product-card__price ins {
+	@apply text-gold no-underline;
+}
+/* CTA — usidren na dno, divider iznad. Ikonica + label su INLINE (ne flex),
+   pa se centriraju ispravno i kad se label lomi u dva reda; label ostaje
+   jedini <span> (cart.js ga cilja preko .find('span')). Suptilno: pozlati
+   na hover carda umjesto teškog punog gumba. */
+.product-card__cta-wrap {
+	@apply mt-auto px-6 pt-7 pb-8;
+}
+.product-card__cta {
+	@apply block w-full cursor-pointer text-center text-sm tracking-wide text-ink/70 transition-colors group-hover:text-gold;
+}
+.product-card__cta svg {
+	@apply mr-2 inline-block h-5 w-5 align-middle;
+}
+.product-card__cta span {
+	@apply align-middle;
+}
+.product-card__cta[disabled] {
+	@apply cursor-not-allowed text-ink/40 group-hover:text-ink/40;
+}
+
+/* =========================================================================
+   Shop filteri (sidebar) — kategorije + WC blok-filteri, on-brand
+   ========================================================================= */
+.shop-filters {
+	@apply text-sm leading-snug text-ink;
+}
+/* Naslovi sekcija: Kategorije / Cijena / Dostupnost / Aktivni filteri
+   — veliki, kao naslov kategorije ("O Osvježivačima prostora"). */
+.shop-filters .wp-block-heading {
+	@apply mb-4 border-l-4 border-primary pl-3 font-serif text-2xl font-normal text-ink;
+}
+
+/* Mobilni collapse: dugme + panel (na xl je sve uvijek vidljivo).
+   Dugme je skriveno po defaultu (desktop) i prikazano samo na mobitelu —
+   ovako pobjeđuje cascade (custom CSS ide poslije Tailwind `xl:hidden`). */
+.shop-filters-toggle {
+	@apply hidden w-full items-center justify-between gap-3 rounded-lg border border-primary-300 bg-surface-raised px-4 py-3 font-serif text-lg text-ink transition-colors hover:border-gold;
+}
+@media (max-width: 1279px) {
+	.shop-filters-toggle {
+		@apply flex;
+	}
+}
+.shop-filters-chevron {
+	@apply shrink-0 transition-transform duration-200;
+}
+.shop-filters-toggle[aria-expanded="true"] .shop-filters-chevron {
+	@apply rotate-180;
+}
+@media (max-width: 1279px) {
+	.shop-filters-panel {
+		@apply overflow-hidden;
+		max-height: 0;
+		opacity: 0;
+		margin-top: 0;
+		transition:
+			max-height 0.35s ease,
+			opacity 0.35s ease,
+			margin 0.35s ease;
+	}
+	.shop-filters-panel.is-open {
+		max-height: 4000px;
+		opacity: 1;
+		margin-top: 1rem;
+	}
+}
+
+/* — Multi-level kategorije — */
+.ren-cat-filter,
+.ren-cat-filter--sub {
+	@apply m-0 list-none p-0;
+}
+.ren-cat-filter--sub {
+	/* uvlačenje pod-nivoa + tanka linija da se vidi hijerarhija */
+	@apply mt-0.5 ml-2.5 border-l border-primary-100 pl-3;
+}
+.ren-cat-link {
+	@apply flex items-center justify-between gap-3 rounded-md px-2.5 py-1.5 text-sm leading-snug text-ink/85 transition-colors hover:bg-primary-50 hover:text-gold;
+}
+.ren-cat-link.is-active {
+	@apply bg-primary-50 font-medium text-gold;
+}
+.ren-cat-count {
+	@apply shrink-0 text-xs text-muted tabular-nums;
+}
+.ren-cat-reset {
+	@apply mb-2 inline-flex text-xs text-muted hover:text-gold;
+}
+
+/* — Aktivni filteri (chips) — zlatni akcent umjesto sive — */
+.shop-filters .wc-block-components-chip {
+	@apply rounded-full border border-primary-200 bg-primary-50 px-3 py-1 text-xs text-ink;
+}
+.shop-filters .wc-block-active-filters__list-item-remove {
+	@apply text-ink/60 transition-colors hover:text-gold;
+}
+.shop-filters .wc-block-active-filters__clear {
+	@apply text-xs text-muted hover:text-gold;
+}
+
+/* — Cijena (slider) — zlatni akcent + galerijski gumb — */
+.shop-filters .wc-block-components-price-slider__range-input-progress {
+	--range-color: var(--color-gold);
+}
+.shop-filters .wc-block-components-price-slider__button,
+.shop-filters .wc-block-price-filter__button {
+	@apply rounded-md border border-gold bg-transparent px-4 py-1.5 text-xs tracking-wide text-ink transition-colors hover:bg-gold hover:text-white;
+}
+.shop-filters .wc-block-components-price-slider__amount {
+	@apply rounded-md border-primary-200 text-sm text-ink;
+}
+
+/* =========================================================================
+   Contact Form 7 — kontakt forma (suzdržan, galerijski stil)
+   ========================================================================= */
+.wpcf7 p {
+	@apply mb-6;
+}
+.wpcf7 label {
+	@apply block text-sm font-medium text-ink;
+}
+.wpcf7 label br {
+	@apply hidden;
+}
+.wpcf7-form-control-wrap {
+	@apply mt-2 block;
+}
+.wpcf7 input[type="text"],
+.wpcf7 input[type="email"],
+.wpcf7 input[type="tel"],
+.wpcf7 input[type="url"],
+.wpcf7 input[type="number"],
+.wpcf7 textarea,
+.wpcf7 select {
+	@apply block w-full rounded-lg border border-field-border bg-surface-raised px-4 py-3 text-base text-ink transition-colors;
+	@apply placeholder:text-muted focus:border-gold focus:ring-2 focus:ring-gold/25 focus:outline-none;
+}
+.wpcf7 textarea {
+	@apply min-h-40 resize-y;
+}
+/* Submit — isti galerijski CTA kao hero (zlatni obrub, fill na hover). */
+.wpcf7 .wpcf7-submit {
+	@apply mt-2 inline-flex cursor-pointer items-center justify-center border border-gold bg-transparent px-10 py-3 text-base tracking-wide text-ink transition-colors duration-300 hover:bg-gold hover:text-white;
+}
+/* Validacija / odgovor. */
+.wpcf7 .wpcf7-not-valid-tip {
+	@apply mt-1 text-sm text-rose-600;
+}
+.wpcf7 input.wpcf7-not-valid,
+.wpcf7 textarea.wpcf7-not-valid {
+	@apply border-rose-400;
+}
+.wpcf7 .wpcf7-response-output {
+	@apply mt-6 border border-field-border px-4 py-3 text-sm text-ink;
+}
+
+body.single-product .price {
+	@apply flex flex-wrap items-baseline gap-x-3 gap-y-1 text-3xl font-medium leading-none text-ink md:text-4xl;
+}
+
+/* Old price (when on sale) — struck through, muted, smaller. */
+body.single-product .price del {
+	@apply text-xl font-normal text-ink/40;
+}
+
+body.single-product .price del .amount {
+	@apply line-through;
+}
+
+/* Active / sale price — gold accent, no underline. */
+body.single-product .price ins {
+	@apply text-gold no-underline;
+}
+
+/* Per-unit / tax suffix sits on its own quiet line. */
+body.single-product .price .woocommerce-price-suffix {
+	@apply block w-full text-sm font-normal text-ink/55;
+}
+
+/* Stock availability badge: coloured dot + label. */
+body.single-product .stock {
+	@apply inline-flex items-center gap-2 text-sm font-medium text-ink/80;
+	margin: 0;
+}
+
+body.single-product .stock::before {
+	content: "";
+	@apply h-2 w-2 shrink-0 rounded-full bg-ink/30;
+}
+
+body.single-product .stock.in-stock::before {
+	@apply bg-emerald-600;
+}
+
+body.single-product .stock.available-on-backorder {
+	@apply text-amber-700;
+}
+
+body.single-product .stock.available-on-backorder::before {
+	@apply bg-amber-500;
+}
+
+body.single-product .stock.out-of-stock {
+	@apply text-rose-600;
+}
+
+body.single-product .stock.out-of-stock::before {
+	@apply bg-rose-500;
+}
+
+/* Top-bar stavke. */
+nav .menu-link {
+	@apply block py-4 text-lg font-normal tracking-wide text-ink transition-colors;
+	@apply lg:px-4 lg:py-2 lg:text-base lg:hover:text-gold;
+}
+nav .menu-link.active {
+	@apply text-gold;
+}
+
+/* Mobitel: uvučeni accordion (skriveno dok ga nav.js ne otvori). */
+nav .submenu,
+nav .nested-submenu {
+	@apply hidden pl-4;
+}
+nav .submenu-link {
+	@apply block py-3 text-base text-ink transition-colors;
+}
+
+/* Desktop: dropdown panel s hover-otkrivanjem. */
+@media (min-width: 1024px) {
+	/* Hover-most: padding ispod linka da kursor ne "ispadne" prema panelu. */
+	nav .menu-group {
+		@apply pb-2;
+	}
+
+	nav .submenu,
+	nav .nested-submenu {
+		@apply absolute top-full left-0 z-30 block min-w-[14rem] rounded-lg border border-border bg-surface-raised py-2 pl-0;
+		box-shadow: 0 16px 40px -18px rgb(57 47 29 / 0.22);
+		@apply invisible -translate-y-1 opacity-0 transition duration-200 ease-out;
+	}
+	/* Dublji nivoi izlijeću bočno. */
+	nav .nested-submenu {
+		@apply top-0 left-full ml-1 translate-x-1 translate-y-0;
+	}
+
+	nav .menu-group:hover > .submenu,
+	nav .menu-group:focus-within > .submenu,
+	nav .submenu-item:hover > .nested-submenu,
+	nav .submenu-item:focus-within > .nested-submenu {
+		@apply visible translate-x-0 translate-y-0 opacity-100;
+	}
+
+	nav .submenu-link {
+		@apply px-4 py-2.5 hover:bg-primary-50 hover:text-gold;
+	}
+}
+/* Header (nav) logo. */
+.custom-logo-link img {
+	@apply w-[200px] xl:w-[230px];
+}
+.woocommerce-notices-wrapper > div {
+	@apply text-center font-semibold mb-5 border border-2 border-primary-200 p-3 lg:flex lg:items-center lg:justify-center lg:gap-5;
+}
+
+.woocommerce-notices-wrapper > * {
+	@apply outline-0;
+}
+
+.woocommerce-notices-wrapper a {
+	@apply block mt-3 lg:mt-0 p-2 bg-primary text-white;
+}
+
+.page.woocommerce-cart .wp-block-heading {
+	@apply !text-2xl;
+}
+
+.page.woocommerce-cart .wp-block-separator {
+	@apply !my-10;
+}
+
+/* Checkout/cart blok — naziv proizvoda: mirno, bez klasične "zlatne trake".
+   (Staro `.woocommerce-checkout h3` pravilo bojalo je h3 naziv proizvoda.) */
+.wc-block-components-product-name {
+	@apply !bg-transparent !p-0 !font-normal !text-ink !no-underline;
+}
+
+.wc-block-cart__submit-button {
+	@apply bg-primary-400 text-white no-underline transition-colors hover:bg-primary-600;
+}
+
+.woocommerce-input-wrapper input,
+.woocommerce-input-wrapper textarea,
+.woocommerce-form input {
+	@apply border border-primary-600 p-2 rounded-sm;
+}
+
+.woocommerce-checkout-payment {
+	@apply !bg-primary-200;
+}
+
+.payment_box {
+	@apply !bg-primary-300 before:!border-b-primary-300 !text-white;
+}
+
+.woocommerce-info {
+	@apply !border-t-primary-200 !bg-primary-50;
+}
+
+.select2-container--default .select2-selection--single,
+.select2-dropdown {
+	@apply border-primary-600;
+}
+
+#box_now_delivery_button {
+	@apply m-0 mt-2 lg:ml-3 lg:mt-0 p-2;
+}
+
+.woocommerce:where(body:not(.woocommerce-block-theme-has-button-styles))
+	#respond
+	input#submit.alt,
+.woocommerce:where(body:not(.woocommerce-block-theme-has-button-styles))
+	a.button.alt,
+.woocommerce:where(body:not(.woocommerce-block-theme-has-button-styles))
+	button.button.alt,
+.woocommerce:where(body:not(.woocommerce-block-theme-has-button-styles))
+	input.button.alt,
+:where(body:not(.woocommerce-block-theme-has-button-styles)):where(
+		:not(.edit-post-visual-editor)
+	)
+	.woocommerce
+	#respond
+	input#submit.alt,
+:where(body:not(.woocommerce-block-theme-has-button-styles)):where(
+		:not(.edit-post-visual-editor)
+	)
+	.woocommerce
+	a.button.alt,
+:where(body:not(.woocommerce-block-theme-has-button-styles)):where(
+		:not(.edit-post-visual-editor)
+	)
+	.woocommerce
+	button.button.alt,
+:where(body:not(.woocommerce-block-theme-has-button-styles)):where(
+		:not(.edit-post-visual-editor)
+	)
+	.woocommerce
+	input.button.alt {
+	@apply !bg-primary-400 hover:!bg-primary-500 text-lg;
+}
+
+.page-numbers {
+	@apply flex items-center justify-center gap-2 mt-5 w-full;
+}
+
+.page-numbers li {
+	@apply list-none;
+}
+
+.page-numbers a {
+	@apply border border-primary-200 px-3 py-1 text-ink transition-all duration-200 hover:bg-primary hover:text-white;
+}
+
+.page-numbers .current {
+	@apply px-3 py-1 bg-primary text-white border border-primary;
+}
+
+.page-numbers .next {
+	@apply border border-primary-200 px-3 py-1 text-ink transition-all duration-200 hover:bg-primary hover:text-white;
+}
+
+.custom-category-content h2 {
+	@apply text-2xl my-5 border-l-5 border-primary pl-3;
+}
+
+.custom-category-content p {
+	@apply mt-3;
+}
+
+/* Static / legal content pages */
+.entry-content h1 {
+	@apply font-serif text-3xl lg:text-4xl text-ink mb-8;
+}
+.entry-content h2 {
+	@apply font-serif text-xl lg:text-2xl text-ink mt-12 mb-4;
+}
+.entry-content p {
+	@apply mb-4 leading-loose;
+}
+.entry-content ul {
+	@apply list-disc pl-6 mb-4 space-y-2;
+}
+/* Tekstualni linkovi u sadržaju — ali NE i dugmad (WC/WP block gumbi su <a>). */
+.entry-content
+	a:not(.button):not(.wp-element-button):not(.wc-block-components-button) {
+	@apply text-gold underline underline-offset-2 hover:opacity-80;
+}
+.entry-content hr {
+	@apply my-12 border-t border-primary-100;
+}
+.entry-content strong {
+	@apply text-ink font-medium;
+}
+
+/* =========================================================================
+   Admin: "Postavke teme" settings page (scoped under .ren-admin)
+   ========================================================================= */
+.ren-admin {
+	/* Brand-neutrali dolaze iz globalnih tokena (app.css @theme). */
+	--ren-border: var(--color-border);
+	--ren-line: var(--color-line);
+	/* WP-chrome boje (namjerno WP-admin standard, ne brand). */
+	--ren-muted: #646970;
+	--ren-ink: #1d2327;
+	max-width: 1120px;
+	margin: 20px 20px 48px 0;
+	color: #3c434a;
+}
+.ren-admin * {
+	box-sizing: border-box;
+}
+
+/* Header */
+.ren-admin-header {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	background: #fff;
+	border: 1px solid var(--ren-border);
+	border-radius: 12px;
+	padding: 18px 24px;
+	margin-bottom: 20px;
+}
+.ren-admin-mark {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 42px;
+	height: 42px;
+	border-radius: 10px;
+	background: var(--color-gold);
+	color: #fff;
+	font-family: var(--font-serif);
+	font-size: 22px;
+	line-height: 1;
+}
+.ren-admin-title {
+	margin: 0;
+	font-size: 20px;
+	font-weight: 600;
+	color: var(--ren-ink);
+}
+.ren-admin-subtitle {
+	margin: 2px 0 0;
+	font-size: 13px;
+	color: var(--ren-muted);
+}
+
+/* Body grid */
+.ren-admin-body {
+	display: grid;
+	grid-template-columns: 240px 1fr;
+	gap: 20px;
+	align-items: start;
+}
+@media (max-width: 960px) {
+	.ren-admin-body {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Sidebar */
+.ren-admin .theme-admin-nav {
+	background: #fff;
+	border: 1px solid var(--ren-border);
+	border-radius: 12px;
+	overflow: hidden;
+	position: sticky;
+	top: 46px;
+}
+.ren-nav-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 12px 16px;
+	cursor: pointer;
+	color: #3c434a;
+	border-left: 3px solid transparent;
+	transition:
+		background 0.15s,
+		color 0.15s,
+		border-color 0.15s;
+}
+.ren-nav-item + .ren-nav-item {
+	border-top: 1px solid var(--ren-line);
+}
+.ren-nav-item:hover {
+	background: var(--color-surface-sunken);
+}
+.ren-nav-item.is-active {
+	background: var(--color-surface-sunken);
+	color: var(--ren-ink);
+	border-left-color: var(--color-gold);
+	font-weight: 600;
+}
+.ren-nav-item .dashicons {
+	color: var(--color-muted);
+}
+.ren-nav-item.is-active .dashicons {
+	color: var(--color-gold);
+}
+.ren-nav-label {
+	font-size: 14px;
+}
+
+/* Main panel */
+.ren-admin-main {
+	background: #fff;
+	border: 1px solid var(--ren-border);
+	border-radius: 12px;
+}
+
+/* Toolbar */
+.ren-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 14px 24px;
+	border-bottom: 1px solid var(--ren-line);
+	position: sticky;
+	top: 32px;
+	background: #fff;
+	border-radius: 12px 12px 0 0;
+	z-index: 5;
+}
+.ren-toolbar-hint {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 13px;
+	color: var(--ren-muted);
+}
+.ren-toolbar-hint .dashicons {
+	color: #bdb699;
+}
+.ren-save-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	background: var(--color-gold);
+	color: #fff;
+	border: none;
+	border-radius: 8px;
+	padding: 9px 18px;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	transition:
+		background 0.15s,
+		opacity 0.15s;
+}
+.ren-save-btn:hover {
+	background: var(--color-accent-strong);
+}
+.ren-save-btn[disabled] {
+	opacity: 0.6;
+	cursor: default;
+}
+.ren-save-btn .dashicons {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+}
+
+/* Section + fields */
+.ren-section {
+	padding: 24px;
+}
+.ren-section-head {
+	margin-bottom: 22px;
+}
+.ren-section-title {
+	margin: 0 0 4px;
+	font-size: 18px;
+	font-weight: 600;
+	color: var(--ren-ink);
+}
+.ren-section-desc {
+	margin: 0;
+	font-size: 13px;
+	color: var(--ren-muted);
+}
+.ren-fields {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 20px 24px;
+}
+@media (max-width: 782px) {
+	.ren-fields {
+		grid-template-columns: 1fr;
+	}
+}
+.ren-field {
+	min-width: 0;
+}
+.ren-field--wide {
+	grid-column: 1 / -1;
+}
+
+/* Labels, help, inputs */
+.ren-admin .ren-label {
+	display: block;
+	margin-bottom: 6px;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--ren-ink);
+}
+.ren-admin .ren-help {
+	margin: -2px 0 8px;
+	font-size: 12px;
+	line-height: 1.5;
+	color: var(--ren-muted);
+}
+.ren-admin .ren-input {
+	width: 100%;
+	border: 1px solid var(--color-field-border);
+	border-radius: 8px;
+	padding: 8px 11px;
+	font-size: 14px;
+	color: var(--ren-ink);
+	background: #fff;
+	transition:
+		border-color 0.15s,
+		box-shadow 0.15s;
+}
+.ren-admin .ren-input:focus {
+	border-color: var(--color-gold);
+	box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-gold) 25%, transparent);
+	outline: none;
+}
+.ren-admin .ren-textarea {
+	min-height: 92px;
+	resize: vertical;
+	line-height: 1.6;
+}
+
+/* Toggle (checkbox) */
+.ren-toggle {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 16px;
+	cursor: pointer;
+	padding: 14px 16px;
+	border: 1px solid var(--ren-line);
+	border-radius: 10px;
+	background: var(--color-surface-raised);
+}
+.ren-toggle-text {
+	display: flex;
+	flex-direction: column;
+}
+.ren-toggle .ren-help {
+	margin: 2px 0 0;
+}
+.ren-toggle-input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+}
+.ren-toggle-track {
+	position: relative;
+	flex: 0 0 auto;
+	width: 42px;
+	height: 24px;
+	margin-top: 1px;
+	border-radius: 999px;
+	background: var(--color-field-border);
+	transition: background 0.2s;
+}
+.ren-toggle-track::after {
+	content: "";
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	transition: transform 0.2s;
+}
+.ren-toggle-input:checked ~ .ren-toggle-track {
+	background: var(--color-gold);
+}
+.ren-toggle-input:checked ~ .ren-toggle-track::after {
+	transform: translateX(18px);
+}
+.ren-toggle-input:focus-visible ~ .ren-toggle-track {
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-gold) 35%, transparent);
+}
+
+/* Media picker */
+.ren-media-preview {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	max-width: 300px;
+	min-height: 130px;
+	border: 1px dashed var(--color-field-border);
+	border-radius: 10px;
+	background: var(--color-surface-sunken);
+	overflow: hidden;
+}
+.ren-media-preview.is-empty::before {
+	content: "Nema odabrane slike";
+	color: var(--color-muted);
+	font-size: 13px;
+}
+.ren-media-preview img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+.ren-media-actions {
+	display: flex;
+	gap: 8px;
+	margin: 10px 0 0;
+}
+.ren-media-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 7px 12px;
+	border: 1px solid var(--color-gold);
+	border-radius: 8px;
+	background: #fff;
+	color: #8a7a44;
+	font-size: 13px;
+	font-weight: 600;
+	text-decoration: none;
+	cursor: pointer;
+}
+.ren-media-btn:hover {
+	background: var(--color-gold);
+	color: #fff;
+}
+.ren-media-btn--ghost {
+	border-color: var(--color-field-border);
+	color: var(--ren-muted);
+}
+.ren-media-btn--ghost:hover {
+	background: #f3f1ea;
+	color: var(--ren-ink);
+	border-color: #cfcabd;
+}
+.ren-media-btn .dashicons {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+}
+/* Keep media-toggle hiding working despite flex display */
+.ren-media-btn.hidden {
+	display: none;
+}
+
+/* Lead (ungrouped) fields */
+.ren-fields--lead {
+	margin-bottom: 18px;
+}
+
+/* Accordions */
+.ren-accordion {
+	border: 1px solid var(--ren-line);
+	border-radius: 10px;
+	background: #fff;
+	margin-bottom: 12px;
+	overflow: hidden;
+}
+.ren-accordion-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 14px 18px;
+	background: var(--color-surface-raised);
+	border: 0;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--ren-ink);
+	text-align: left;
+}
+.ren-accordion-head:hover {
+	background: #f6f3ec;
+}
+.ren-accordion-chevron {
+	color: var(--color-muted);
+	transition: transform 0.25s ease;
+}
+.ren-accordion.is-open .ren-accordion-chevron {
+	transform: rotate(180deg);
+}
+/* Smooth height via the 0fr/1fr grid trick */
+.ren-accordion-body {
+	display: grid;
+	grid-template-rows: 0fr;
+	transition: grid-template-rows 0.25s ease;
+}
+.ren-accordion.is-open .ren-accordion-body {
+	grid-template-rows: 1fr;
+}
+.ren-accordion-inner {
+	overflow: hidden;
+}
+.ren-accordion-inner .ren-fields {
+	padding: 18px;
+}
+
+/* Conditional visibility */
+.ren-hidden {
+	display: none !important;
+}

@@ -1,0 +1,15 @@
+# Block direct access to composer.json and composer.lock
+<FilesMatch "(^composer\.(json|lock)$)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to the vendor folder
+<Directory "vendor">
+    Order allow,deny
+    Deny from all
+</Directory>
+
+# Alternative for vendor using mod_rewrite
+RewriteEngine On
+RewriteRule ^vendor/ - [F,L]

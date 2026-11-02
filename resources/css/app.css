@@ -1,0 +1,82 @@
+@import "tailwindcss";
+@import "swiper/swiper-bundle.css";
+@import "./custom.css";
+
+@theme {
+	/* Body / informative text */
+	--font-sans: "Inter", sans-serif;
+	/* Brand name, headings, taglines */
+	--font-serif: "EB Garamond", serif;
+
+	/* Custom breakpoint: kartične mreže idu 1-kolona ispod 500px, 2 iznad
+	   (Tailwind default nema ništa između 0 i sm=640px). Koristi `xs:`. */
+	--breakpoint-xs: 500px;
+
+	/* Renaissance palette — 90% neutral / 10% accent.
+	   Warm white background, genuinely warm grey text, matte gold trace. */
+	--color-cream: #f6f4ef; /* topla bijela / ivory — primarna pozadina */
+	--color-ink: #6f6a62; /* meka topla (greige) siva — tekst; R>G>B, ne hladno plava */
+	--color-gold: #c7b27a; /* mat zlato — naglasak (štedljivo) */
+
+	/* `primary` is repointed to the matte-gold scale so existing
+	   *-primary* utilities render on-brand. Gold is the accent (10%). */
+	--color-primary: #c7b27a;
+	--color-primary-50: #faf8f3;
+	--color-primary-100: #f3eee1;
+	--color-primary-200: #e9dec5;
+	--color-primary-300: #dccba0;
+	--color-primary-400: #cfba85;
+	--color-primary-500: #c7b27a;
+	--color-primary-600: #b39a5f;
+	--color-primary-700: #957d4d;
+	--color-primary-800: #796642;
+	--color-primary-900: #645439;
+	--color-primary-950: #392f1d;
+
+	/* ── Semantički tokeni — JEDINI izvor istine za UI ──────────────────
+	   Koristi OVE u kodu (frontend + admin), ne sirovi hex. Sve je izvedeno
+	   iz tri brand-primitiva gore (ivory / topla siva / mat zlato).
+	   Mijenjaš brand → mijenjaš samo primitive iznad, ostalo prati. */
+
+	/* Površine */
+	--color-surface: var(
+		--color-cream
+	); /* #f6f4ef — primarna pozadina (zid galerije) */
+	--color-surface-raised: #fcfbf8; /* kartice, toggle, accordion head */
+	--color-surface-sunken: var(
+		--color-primary-50
+	); /* #faf8f3 — hover / preview */
+
+	/* Tekst */
+	--color-text: var(--color-ink); /* #6f7275 — meka topla siva, body */
+	--color-muted: #9a9587; /* prigušeni tekst / ikone */
+
+	/* Linije */
+	--color-border: #e6e3db; /* obrub kartica / panela */
+	--color-line: #eceae3; /* tanki divider */
+	--color-field-border: #d7d3c8; /* obrub input polja */
+
+	/* Naglasak (10% pravilo) */
+	--color-accent: var(--color-gold); /* #c7b27a — trag, ne dekor */
+	--color-accent-strong: var(--color-primary-600); /* #b39a5f — hover */
+
+	/* Radiusi */
+	--radius-control: 8px; /* dugmad, inputi */
+	--radius-card: 12px; /* paneli, kartice */
+}
+
+@layer base {
+	/* Frontend only — never leak into wp-admin (app.css is enqueued there too). */
+	body:not(.wp-admin) {
+		background-color: var(--color-cream);
+		color: var(--color-ink);
+		line-height: 1.75; /* praznina je dio identiteta */
+	}
+
+	body:not(.wp-admin) :is(h1, h2, h3, h4, h5, h6) {
+		font-family: var(--font-serif);
+		font-weight: 400; /* EB Garamond Regular — neka ne bude prevelik */
+		color: var(--color-ink);
+		line-height: 1.3;
+	}
+}

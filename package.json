@@ -1,0 +1,33 @@
+{
+  "name": "renaissance",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Renaissance WooCommerce theme",
+  "author": "Kenan Kahrić",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "npm-run-all --parallel dev:*",
+    "dev:css": "tailwindcss -i resources/css/app.css -o build/app.css --watch",
+    "dev:app": "esbuild resources/js/app.js --bundle --sourcemap --outfile=build/app.min.js --watch",
+    "dev:admin": "esbuild resources/js/admin.js --bundle --sourcemap --outfile=build/admin.min.js --watch",
+    "build": "npm-run-all build:*",
+    "build:css": "tailwindcss -i resources/css/app.css -o build/app.css --minify",
+    "build:app": "esbuild resources/js/app.js --bundle --minify --outfile=build/app.min.js",
+    "build:admin": "esbuild resources/js/admin.js --bundle --minify --outfile=build/admin.min.js",
+    "bundle": "node scripts/release.mjs"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.0.0",
+    "esbuild": "^0.28.2",
+    "npm-run-all2": "^9.0.4",
+    "tailwindcss": "4.0.0"
+  },
+  "dependencies": {
+    "swiper": "^11.2.10"
+  },
+  "overrides": {
+    "@tailwindcss/oxide": "4.0.0",
+    "@tailwindcss/node": "4.0.0",
+    "tailwindcss": "4.0.0"
+  }
+}
