@@ -70,7 +70,7 @@ try {
 // 5. Commit + tag.
 run('git add style.css version.php package.json package-lock.json');
 run(`git commit -m "Release ${next}"`);
-run(`git tag v${next}`);
+run(`git tag -a v${next} -m "Release ${next}"`);
 
 // 6. Stage: tracked files at the release commit, + build, + production vendor.
 rmSync(STAGE, { recursive: true, force: true });
