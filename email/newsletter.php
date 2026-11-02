@@ -70,9 +70,13 @@
                 <div class="header">Uspješna prijava na <?php bloginfo('name'); ?> newsletter!</div>
                 <div class="content">
                     <p>Pozdrav,</p>
-                    <p>Hvala vam što ste se prijavili na naš newsletter. Ovo je Vaš kod za <?php echo $discount_amount; ?>% popusta:</p>
-                    <div class="coupon"><?php echo $coupon_code; ?></div>
+                    <?php if ('' !== $coupon_code) { ?>
+                    <p>Hvala vam što ste se prijavili na naš newsletter. Ovo je Vaš kod za <?php echo (int) $discount_amount; ?>% popusta:</p>
+                    <div class="coupon"><?php echo esc_html($coupon_code); ?></div>
                     <p>Iskoristite ovaj kod pri sljedećoj kupnji i uživajte u popustu!</p>
+                    <?php } else { ?>
+                    <p>Hvala vam što ste se prijavili na naš newsletter. Javljat ćemo vam se povremeno s mirisnim novostima i malim ritualima za dom.</p>
+                    <?php } ?>
                     <p>Srdačno,<br>Vaš Renaissance tim</p>
                 </div>
                 <div class="footer">

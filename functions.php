@@ -1201,8 +1201,9 @@ function subscribe_user_to_mailchimp(): void {
         }
     } catch (Exception) {}
 
+    // Popust 0 = newsletter bez kupona: ne pravimo 0% kupon, mail je samo zahvala.
     $discount_amount = (int) Config::getAsString('mailchimp-newsletter-discount');
-    $coupon_code = generate_unique_coupon($discount_amount, $email);
+    $coupon_code = $discount_amount > 0 ? generate_unique_coupon($discount_amount, $email) : '';
 
     $response = $mailchimp->lists->addListMember($list_id, [
         'email_address' => $email,
