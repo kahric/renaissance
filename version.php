@@ -8,5 +8,5 @@ if ( ! defined( '_THEME_VERSION' ) ) {
      * to create your production build, the value below will be replaced in the
      * generated zip file with a timestamp, converted to base 36.
      */
-    define( '_THEME_VERSION', '1.1.3' );
+    define( '_THEME_VERSION', '1.1.4' );
 }
