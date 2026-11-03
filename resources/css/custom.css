@@ -519,8 +519,40 @@ nav .submenu-link {
 }
 /* Tekstualni linkovi u sadržaju — ali NE i dugmad (WC/WP block gumbi su <a>). */
 .entry-content
-	a:not(.button):not(.wp-element-button):not(.wc-block-components-button) {
+	a:not(.button):not(.wp-element-button):not(.wc-block-components-button):not(.wp-block-button__link):not(.wc-block-grid a):not(.wc-block-components-product-name):not(.wp-block-woocommerce-empty-cart-block a) {
 	@apply text-gold underline underline-offset-2 hover:opacity-80;
+}
+
+/* WC blok-grid proizvoda (npr. „Novo u ponudi” u praznoj košarici) — isti
+   izgled kao naše product-card kartice: serif naslov bez podcrtavanja, mirna
+   cijena, CTA kao tekst koji pozlati na hover (ne tamna pilula). */
+/* Prazna košarica — link „Pogledajte dućan” zlatan, bez podcrtavanja. */
+.wp-block-woocommerce-empty-cart-block p a {
+	@apply text-gold no-underline transition-opacity hover:opacity-80;
+}
+.wc-block-grid__product {
+	@apply text-center;
+}
+.wc-block-grid__product-link {
+	@apply block text-ink no-underline;
+}
+.wc-block-grid__product-title {
+	@apply px-2 pt-5 font-serif text-xl font-normal leading-snug text-ink no-underline transition-colors;
+}
+.wc-block-grid__product-link:hover .wc-block-grid__product-title {
+	@apply text-gold;
+}
+.wc-block-grid__product-price {
+	@apply pt-3 text-lg font-medium text-ink;
+}
+.wc-block-grid__product-add-to-cart.wp-block-button .wp-block-button__link {
+	@apply mt-4 inline-block rounded-none border-0 bg-transparent p-0 text-sm tracking-wide text-ink/70 no-underline shadow-none transition-colors hover:bg-transparent hover:text-gold;
+}
+.wc-block-grid__product-add-to-cart .wp-block-button__link.added {
+	@apply text-gold;
+}
+.wc-block-grid__product-add-to-cart .added_to_cart {
+	@apply mt-2 block text-sm text-gold no-underline;
 }
 .entry-content hr {
 	@apply my-12 border-t border-primary-100;
